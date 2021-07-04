@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  nginx:
+    image: nginx
+    networks:
+      - network-example
+    ports:
+      - 8080:80
+    configs:
+      - source: nginx.conf
+        target: /etc/nginx/nginx.conf
+      - source: index.html
+        target: /usr/share/nginx/html/index.html
+    secrets:
+      - server.crt
+      - server.key
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        max_replicas_per_node: 1
+
+networks:
+  network-example:
+    external: true
+
+configs:
+  nginx.conf:
+    external: true
+  index.html:
+    external: true
+
+secrets:
+  server.crt:
+    external: true
+  server.key:
+    external: true

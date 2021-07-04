@@ -1,0 +1,36 @@
+{
+    "Docker": {
+        "Networks": [
+            {
+                "Name": "network-example",
+                "Driver": "overlay"
+            }
+        ],
+        "Configs": [
+            {
+                "Name": "index.html",
+                "FilePath": "configs/index-example.html"
+            },
+            {
+                "Name": "nginx.conf",
+                "FilePath": "configs/nginx-example.conf"
+            }
+        ],
+        "Secrets": [
+            {
+                "Name": "server.key",
+                "FilePath": "secrets/server-example.key"
+            },
+            {
+                "Name": "server.crt",
+                "FilePath": "secrets/server-example.crt"
+            }
+        ],
+        "Stacks": [
+            {
+                "Name": "webserver",
+                "FilePath": "stacks/webserver-example.yml"
+            }
+        ]
+    }
+}
