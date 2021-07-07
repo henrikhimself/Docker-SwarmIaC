@@ -11,7 +11,19 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+<#  
+    .SYNOPSIS
+	Configures Docker using a configuration file.
+    .DESCRIPTION
+    This script will read in a configuration file and configure Docker to match it. It will
+    do this by removing previously deployed stacks, configs, secrets and custom networks.  
+    .PARAMETER ConfigPath
+    Path of the folder containing configuration files.
+    .PARAMETER ConfigFileName
+    Filename of the configuration file to use.
+    .EXAMPLE
+    PS> ./Set-Docker.ps1 -ConfigPath ./example.host/ -ConfigFileName config.json
+#>
 #requires -Version 7
 [CmdletBinding()]
 param(
