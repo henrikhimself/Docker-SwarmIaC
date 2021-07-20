@@ -3,7 +3,7 @@ This script configures Docker and creates configs, secrets, stacks as described 
 a configuration file. 
 
 Each invocation of the script will tear down all services, undeploy stacks and delete 
-configs/secrets before setting up Docker according to the definition file being used.
+configs/secrets before setting up Docker to match the definition file being used.
 
 # Example use:
-./Set-Docker.ps1 -ConfigPath example.host -ConfigFileName Config.json
+./Set-Docker.ps1 -ConfigFilePath ~/iac/example.host/Config.json

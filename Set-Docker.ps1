@@ -16,19 +16,17 @@
 	Configures Docker using a configuration file.
     .DESCRIPTION
     This script will read in a configuration file and configure Docker to match it. It will
-    do this by removing previously deployed stacks, configs, secrets and custom networks.  
-    .PARAMETER ConfigPath
-    Path of the folder containing configuration files.
-    .PARAMETER ConfigFileName
-    Filename of the configuration file to use.
+    do this by removing previously deployed stacks, configs, secrets and custom networks 
+    before creating the new configuration.
+    .PARAMETER ConfigFilePath
+    Filepath of the configuration file to use.
     .EXAMPLE
-    PS> ./Set-Docker.ps1 -ConfigPath ./example.host/ -ConfigFileName config.json
+    PS> ./Set-Docker.ps1 -ConfigFilePath ~/iac/example.host/Config.json
 #>
 #requires -Version 7
 [CmdletBinding()]
 param(
-    [string]$ConfigPath = 'example.host',
-    [string]$ConfigFileName = 'Config.json'
+    [string]$ConfigFilePath = (Join-Path $PSScriptRoot "example.host" | Join-Path -ChildPath "Config.json")
 )
 Set-StrictMode -Version Latest
 $InformationPreference = 'Continue'
@@ -36,8 +34,7 @@ $ErrorActionPreference = 'Stop'
 
 <# Global #>
 # - Read configuration file.
-[string]$ConfigFullPath = Join-Path $PSScriptRoot $ConfigPath | Join-Path -ChildPath $ConfigFileName
-[PSCustomObject]$DefinitionFile = Get-Content -Path $ConfigFullPath | ConvertFrom-Json
+[PSCustomObject]$DefinitionFile = Get-Content -Path $ConfigFilePath | ConvertFrom-Json
 $Definition = [PSCustomObject]@{
     Docker = $null
 }
@@ -48,6 +45,7 @@ $Definition.PSObject.Properties | ForEach-Object {
 }
 
 # - Configuration variables.
+[string]$ConfigPath = Split-Path -Path $ConfigFilePath
 [PSCustomObject]$Docker = $Definition.Docker
 
 <# Main #>
