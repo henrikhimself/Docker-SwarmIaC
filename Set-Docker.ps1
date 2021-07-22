@@ -26,7 +26,7 @@
 #requires -Version 7
 [CmdletBinding()]
 param(
-    [string]$ConfigFilePath = (Join-Path $PSScriptRoot "example.host" | Join-Path -ChildPath "Config.json")
+    [string]$ConfigFilePath = (Join-Path $PSScriptRoot 'example.host' | Join-Path -ChildPath 'Config.json')
 )
 Set-StrictMode -Version Latest
 $InformationPreference = 'Continue'
