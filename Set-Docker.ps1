@@ -133,7 +133,29 @@ Function Start-CreateNetworks {
         [string]$networkName = $($network.Name).ToLower()
         [string]$networkDriver = $network.Driver
         Write-Information "$networkName $networkDriver"
-        & docker @('network', 'create', '--driver', $networkDriver, '--attachable', $networkName)
+        
+        $dockerArgs = @(
+            'network', 'create',
+            '--driver', $networkDriver,
+            '--attachable'
+        )
+        switch -exact ($networkDriver) {
+            "macvlan" {
+                [string]$networkSubnet = $network.Subnet
+                [string]$networkGateway = $network.Gateway
+                [string]$networkParent = $network.Parent
+                $dockerArgs += @(
+                    '--subnet', $networkSubnet,
+                    '--gateway', $networkGateway,
+                    '-o', "parent=$networkParent"
+                )
+                break
+            }
+        }
+        $dockerArgs += @(
+            $networkName
+        )
+        & docker $dockerArgs
     }
 }
 Start-CreateNetworks
