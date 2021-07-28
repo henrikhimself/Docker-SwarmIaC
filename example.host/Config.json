@@ -3,7 +3,8 @@
         "Networks": [
             {
                 "Name": "network-example",
-                "Driver": "overlay"
+                "Driver": "overlay",
+                "Args": []
             }
         ],
         "Configs": [

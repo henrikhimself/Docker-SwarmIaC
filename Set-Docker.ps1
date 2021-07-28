@@ -32,6 +32,8 @@ Set-StrictMode -Version Latest
 $InformationPreference = 'Continue'
 $ErrorActionPreference = 'Stop'
 
+$ConfigFilePath = '/home/user/svr-lin-1/iac/Config.json'
+
 <# Global #>
 # - Read configuration file.
 [PSCustomObject]$DefinitionFile = Get-Content -Path $ConfigFilePath | ConvertFrom-Json
@@ -132,27 +134,16 @@ Function Start-CreateNetworks {
     foreach ($network in $Docker.Networks) {
         [string]$networkName = $($network.Name).ToLower()
         [string]$networkDriver = $network.Driver
+        [string[]]$networkArgs = $network.Args
         Write-Information "$networkName $networkDriver"
         
         $dockerArgs = @(
             'network', 'create',
-            '--driver', $networkDriver,
-            '--attachable'
+            '--driver', $networkDriver
         )
-        switch -exact ($networkDriver) {
-            "macvlan" {
-                [string]$networkSubnet = $network.Subnet
-                [string]$networkGateway = $network.Gateway
-                [string]$networkParent = $network.Parent
-                $dockerArgs += @(
-                    '--subnet', $networkSubnet,
-                    '--gateway', $networkGateway,
-                    '-o', "parent=$networkParent"
-                )
-                break
-            }
-        }
+        $dockerArgs += $networkArgs
         $dockerArgs += @(
+            '--attachable',
             $networkName
         )
         & docker $dockerArgs
