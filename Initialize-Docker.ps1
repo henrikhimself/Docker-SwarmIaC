@@ -49,9 +49,10 @@ Function Initialize-Docker {
 
     # - Invoke functions to configure Docker.
     Start-EnsureSwarmMode
-    Start-CreateNetworks $ConfigPath $Docker.Networks
+    Start-CreateNetworks $Docker.Networks
     Start-CreateConfigs $ConfigPath $Docker.Configs
     Start-CreateSecrets $ConfigPath $Docker.Secrets
+    #Save-ImagesInRegistry $Docker.CacheImages
     Start-CreateStacks $ConfigPath $Docker.Stacks
 }
 
