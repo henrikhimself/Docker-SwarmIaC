@@ -128,7 +128,7 @@ Function Start-RemoveNetworks {
     }
 }
 
-Function Start-CreateNetworks([string]$configPath, [PSCustomObject[]]$networks) {
+Function Start-CreateNetworks([PSCustomObject[]]$networks) {
     Write-Information '- Creating networks'
     function CreateNetwork([PSCustomObject]$network) {
         [string]$networkName = $($network.Name).ToLower()
@@ -153,5 +153,16 @@ Function Start-CreateNetworks([string]$configPath, [PSCustomObject[]]$networks) 
     }
     foreach ($network in $deferredNetwork) {
         CreateNetwork($network)
+    }
+}
+
+Function Save-ImagesInRegistry([PSCustomObject[]]$images) {
+    Write-Information '- Caching images in registry'
+    foreach ($image in $images) {
+        & docker @('image', 'pull', $image.Source)
+        if (!$LASTEXITCODE) {
+            & docker @('image', 'tag', $image.Source, $image.Target)
+            & docker @('image', 'push', $image.Target)
+        }
     }
 }
