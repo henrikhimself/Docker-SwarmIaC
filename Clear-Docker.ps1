@@ -13,32 +13,30 @@
 # limitations under the License.
 <#  
     .SYNOPSIS
-	Configures Docker using a configuration file.
+	Clears Docker configuration.
     .DESCRIPTION
-    This script will read in a configuration file and configure Docker to match it. It will
-    do this by removing previously deployed stacks, configs, secrets and custom networks 
-    before creating the new configuration.
-    .PARAMETER ConfigFilePath
-    Filepath of the configuration file to use.
+    This script will clear configuration. It will do this by removing 
+    previously deployed stacks, configs, secrets and custom networks.
     .EXAMPLE
-    PS> ./Set-Docker.ps1 -ConfigFilePath ~/iac/example.host/Config.json
+    PS> ./Clear-Docker.ps1
 #>
 #requires -Version 7
 [CmdletBinding()]
-param(
-    [string]$ConfigFilePath = (Join-Path $PSScriptRoot 'example.host' | Join-Path -ChildPath 'Config.json')
-)
+param()
 Set-StrictMode -Version Latest
 $InformationPreference = 'Continue'
 $ErrorActionPreference = 'Stop'
 
-Function Set-Docker() {
-    Clear-Docker
-    Initialize-Docker
+. (Join-Path $PSScriptRoot 'Shared.ps1')
+
+Function Clear-Docker {
+    # - Invoke functions to clear Docker configuration.
+    Start-RemoveStacks
+    Start-RemoveConfigs
+    Start-RemoveSecrets
+    Start-RemoveNetworks
 }
 
 if ($MyInvocation.InvocationName -ne '.') {
-    . (Join-Path $PSScriptRoot 'Clear-Docker.ps1')
-    . (Join-Path $PSScriptRoot 'Initialize-Docker.ps1') @PSBoundParameters
-    Set-Docker
+    Clear-Docker
 }
