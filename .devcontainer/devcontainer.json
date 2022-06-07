@@ -1,0 +1,46 @@
+{
+	"name": "MyDevContainer",
+	"image": "ghcr.io/henrikhimself/devcontainer:latest",
+	"postCreateCommand": "/bin/bash ./.devcontainer/on_create.sh",
+	"postStartCommand": "/bin/bash ./.devcontainer/on_start.sh",
+	"remoteUser": "vscode",
+	"extensions": [
+		"Fasani.coding-in-the-sun",
+		"vscode-icons-team.vscode-icons",
+		"hediet.vscode-drawio",
+		"redhat.vscode-xml",
+		"janisdd.vscode-edit-csv",
+		"mechatroner.rainbow-csv",
+		"mathematic.vscode-pdf",
+		"fabiospampinato.vscode-todo-plus",
+		"ms-vscode.powershell",
+		"ms-dotnettools.csharp",
+		"ms-toolsai.jupyter",
+		"ms-dotnettools.dotnet-interactive-vscode",
+		"ms-azuretools.vscode-docker"
+	],
+	"settings": {
+		"extensions.ignoreRecommendations": true,
+		"editor.minimap.enabled": false,
+		"editor.cursorStyle": "block",
+		"editor.codeLens": false,
+		"editor.dragAndDrop": false,
+		"editor.fontFamily": "'FiraCode Nerd Font', 'DejaVu Sans Mono', monospace",
+		"editor.fontLigatures": true,
+		"editor.renderLineHighlight": "all",
+		"workbench.startupEditor": "none",
+		"workbench.iconTheme": "vscode-icons",
+		"terminal.integrated.defaultProfile.linux": "pwsh",
+		"terminal.integrated.cursorBlinking": true,
+		"terminal.integrated.enableBell": true,
+		"powershell.promptToUpdatePowerShell": false,
+		"powershell.integratedConsole.showOnStartup": false,
+		"powershell.powerShellAdditionalExePaths": {
+			"exePath": "/opt/powershell/pwsh",
+			"versionName": "PowerShell"
+		},
+		"omnisharp.autoStart": false,
+		"omnisharp.enableDecompilationSupport": true,
+		"omnisharp.enableRoslynAnalyzers": true
+	}
+}
